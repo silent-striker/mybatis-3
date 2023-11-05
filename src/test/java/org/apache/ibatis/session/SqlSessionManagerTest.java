@@ -15,11 +15,9 @@
  */
 package org.apache.ibatis.session;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.Reader;
 import java.util.List;
@@ -111,4 +109,39 @@ class SqlSessionManagerTest extends BaseDataTest {
     assertEquals(2, posts.size()); // old gcode issue #392, new #1848
   }
 
+  //  testing exception when localSession doesn't exist
+  @Test
+  public void testFlushStatementsException() {
+    Exception exception = assertThrows(SqlSessionException.class, () -> {
+      manager.flushStatements();
+    });
+
+    String expectedMessage = "Error:  Cannot rollback.  No managed session is started.";
+    String actualMessage = exception.getMessage();
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+//  exception while committing if localSession is null
+  @Test
+  public void testCommitException() {
+    Exception exception = assertThrows(SqlSessionException.class, () -> {
+      manager.commit();
+    });
+
+    String expectedMessage = "Error:  Cannot commit.  No managed session is started.";
+    String actualMessage = exception.getMessage();
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+//  exception for force rollback if localSession is null
+  @Test
+  public void testRollbackException() {
+    Exception exception = assertThrows(SqlSessionException.class, () -> {
+      manager.rollback(true);
+    });
+
+    String expectedMessage = "Error:  Cannot rollback.  No managed session is started.";
+    String actualMessage = exception.getMessage();
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
 }
