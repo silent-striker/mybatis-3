@@ -29,17 +29,26 @@ public final class PropertyNamer {
   }
 
   public static String methodToProperty(String name) {
+    int startIndex;
     if (name.startsWith("is")) {
-      name = name.substring(2);
+      startIndex = 2;
+      name = name.substring(startIndex);
     } else if (name.startsWith("get") || name.startsWith("set")) {
-      name = name.substring(3);
+      startIndex = 3;
+      name = name.substring(startIndex);
     } else {
       throw new ReflectionException(
-          "Error parsing property name '" + name + "'.  Didn't start with 'is', 'get' or 'set'.");
+        "Error parsing property name '" + name + "'.  Didn't start with 'is', 'get' or 'set'.");
     }
 
-    if (name.length() == 1 || name.length() > 1 && !Character.isUpperCase(name.charAt(1))) {
-      name = name.substring(0, 1).toLowerCase(Locale.ENGLISH) + name.substring(1);
+    int secondCharIndex = 1;
+    int minimumLength = 1;
+    if (name.length() == minimumLength || name.length() > minimumLength && !Character.isUpperCase(name.charAt(secondCharIndex))) {
+      startIndex = 0;
+      int endIndex = 1;
+      int startAfterEndIndex = endIndex;
+
+      name = name.substring(startIndex, endIndex).toLowerCase(Locale.ENGLISH) + name.substring(startAfterEndIndex);
     }
 
     return name;
