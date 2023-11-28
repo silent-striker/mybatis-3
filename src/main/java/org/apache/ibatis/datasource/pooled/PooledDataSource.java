@@ -460,7 +460,7 @@ public class PooledDataSource implements DataSource {
           if (longestCheckoutTime > poolMaximumCheckoutTime) {
             // Can claim overdue connection
             state.claimedOverdueConnectionCount++;
-            state.accumulatedCheckoutTimeOfOverdueConnections += longestCheckoutTime;
+            state.totalOverdueCheckoutTime += longestCheckoutTime;
             state.accumulatedCheckoutTime += longestCheckoutTime;
             state.activeConnections.remove(oldestActiveConnection);
             if (!oldestActiveConnection.getRealConnection().getAutoCommit()) {

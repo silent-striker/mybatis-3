@@ -31,7 +31,7 @@ public class PoolState {
   protected long accumulatedRequestTime;
   protected long accumulatedCheckoutTime;
   protected long claimedOverdueConnectionCount;
-  protected long accumulatedCheckoutTimeOfOverdueConnections;
+  protected long totalOverdueCheckoutTime;
   protected long accumulatedWaitTime;
   protected long hadToWaitCount;
   protected long badConnectionCount;
@@ -67,7 +67,7 @@ public class PoolState {
 
   public synchronized long getAverageOverdueCheckoutTime() {
     return claimedOverdueConnectionCount == 0 ? 0
-        : accumulatedCheckoutTimeOfOverdueConnections / claimedOverdueConnectionCount;
+        : totalOverdueCheckoutTime / claimedOverdueConnectionCount;
   }
 
   public synchronized long getAverageCheckoutTime() {
