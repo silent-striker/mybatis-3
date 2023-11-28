@@ -117,7 +117,7 @@ public class Author implements Serializable {
   public boolean equals(Object o) {
     if (this == o) {
       return true;
-
+    }
     if (!(o instanceof Author)) {
       return false;
     }
