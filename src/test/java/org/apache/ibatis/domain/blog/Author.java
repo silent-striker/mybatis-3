@@ -92,27 +92,47 @@ public class Author implements Serializable {
     return favouriteSection;
   }
 
+  private boolean haveSameIdAndBio(Author secondAuthor){
+    return (id != secondAuthor.id) || (bio != null ? !bio.equals(secondAuthor.bio) : secondAuthor.bio != null);
+  }
+
+  private boolean haveSameEmails(Author secondAuthor){
+    return email != null ? !email.equals(secondAuthor.email) : secondAuthor.email != null;
+  }
+
+  private boolean haveSamePassword(Author secondAuthor){
+    return (password != null ? !password.equals(secondAuthor.password) : secondAuthor.password != null);
+  }
+
+  private boolean haveSameUserName(Author secondAuthor){
+    return username != null ? !username.equals(secondAuthor.username) : secondAuthor.username != null;
+  }
+
+  private boolean haveSameFavouriteSection(Author secondAuthor){
+    return favouriteSection != null ? !favouriteSection.equals(secondAuthor.favouriteSection)
+      : secondAuthor.favouriteSection != null;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
-    }
+
     if (!(o instanceof Author)) {
       return false;
     }
 
     Author author = (Author) o;
 
-    if ((id != author.id) || (bio != null ? !bio.equals(author.bio) : author.bio != null)
-        || (email != null ? !email.equals(author.email) : author.email != null)
-        || (password != null ? !password.equals(author.password) : author.password != null)) {
+    if (haveSameIdAndBio(author)
+        || haveSameEmails(author)
+        || haveSamePassword(author)) {
       return false;
     }
-    if (username != null ? !username.equals(author.username) : author.username != null) {
+    if (haveSameUserName(author)) {
       return false;
     }
-    if (favouriteSection != null ? !favouriteSection.equals(author.favouriteSection)
-        : author.favouriteSection != null) {
+    if (haveSameFavouriteSection(author)) {
       return false;
     }
 
